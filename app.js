@@ -20,9 +20,10 @@ const ringFrames=['assets/ringmaster-0.webp','assets/ringmaster-1.webp','assets/
 let ringMode='idle',ringTimer=null,ringStep=0,ringToken=0;
 ringFrames.forEach(src=>{const img=new Image();img.src=src});
 const ringSequences={
-  idle:[{f:0,d:900},{f:0,d:700},{f:1,d:150},{f:2,d:150},{f:3,d:430},{f:2,d:150},{f:1,d:150},{f:0,d:1000}],
-  spin:[{f:1,d:110},{f:2,d:110},{f:3,d:150},{f:2,d:110},{f:1,d:110},{f:2,d:110},{f:3,d:150},{f:2,d:110}],
-  win:[{f:2,d:120},{f:3,d:220},{f:2,d:120},{f:3,d:220},{f:1,d:140},{f:0,d:500}]
+  // Mostly still, then one deliberate hat-tip. This is sprite animation, not a looping video panel.
+  idle:[{f:0,d:3200},{f:1,d:150},{f:2,d:150},{f:3,d:320},{f:2,d:150},{f:1,d:150},{f:0,d:2600}],
+  spin:[{f:0,d:420},{f:1,d:180},{f:2,d:500},{f:3,d:700},{f:2,d:260},{f:1,d:220}],
+  win:[{f:1,d:140},{f:2,d:160},{f:3,d:520},{f:2,d:170},{f:1,d:160},{f:0,d:850}]
 };
 function runRingmaster(mode=ringMode){
   ringMode=mode;ringStep=0;ringToken++;const token=ringToken;
@@ -33,8 +34,8 @@ function runRingmaster(mode=ringMode){
   const tick=()=>{
     if(token!==ringToken)return;
     const seq=ringSequences[ringMode]||ringSequences.idle,step=seq[ringStep%seq.length];
-    img.style.opacity='.72';
-    setTimeout(()=>{if(token===ringToken){img.src=ringFrames[step.f];img.style.opacity='1';box.classList.toggle('tip',step.f>=2)}},35);
+    img.src=ringFrames[step.f];
+    box.classList.toggle('tip',step.f>=2);
     ringStep=(ringStep+1)%seq.length;
     ringTimer=setTimeout(tick,step.d);
   };
