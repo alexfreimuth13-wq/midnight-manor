@@ -16,6 +16,30 @@ const lines=[
 const bets=[.25,.5,1,2,5,10];
 let betIndex=2,balance=1000,lastWin=0,busy=false,gridVals=[];
 let audioOn=false,audioCtx=null;
+const ringFrames=['assets/ringmaster-0.webp','assets/ringmaster-1.webp','assets/ringmaster-2.webp','assets/ringmaster-3.webp'];
+let ringMode='idle',ringTimer=null,ringStep=0,ringToken=0;
+ringFrames.forEach(src=>{const img=new Image();img.src=src});
+const ringSequences={
+  idle:[{f:0,d:900},{f:0,d:700},{f:1,d:150},{f:2,d:150},{f:3,d:430},{f:2,d:150},{f:1,d:150},{f:0,d:1000}],
+  spin:[{f:1,d:110},{f:2,d:110},{f:3,d:150},{f:2,d:110},{f:1,d:110},{f:2,d:110},{f:3,d:150},{f:2,d:110}],
+  win:[{f:2,d:120},{f:3,d:220},{f:2,d:120},{f:3,d:220},{f:1,d:140},{f:0,d:500}]
+};
+function runRingmaster(mode=ringMode){
+  ringMode=mode;ringStep=0;ringToken++;const token=ringToken;
+  clearTimeout(ringTimer);
+  const box=$('.ringmaster-anim'),img=$('#ringmasterFrame');
+  if(!box||!img)return;
+  box.classList.toggle('spin-mode',mode==='spin');box.classList.toggle('win-mode',mode==='win');
+  const tick=()=>{
+    if(token!==ringToken)return;
+    const seq=ringSequences[ringMode]||ringSequences.idle,step=seq[ringStep%seq.length];
+    img.style.opacity='.72';
+    setTimeout(()=>{if(token===ringToken){img.src=ringFrames[step.f];img.style.opacity='1';box.classList.toggle('tip',step.f>=2)}},35);
+    ringStep=(ringStep+1)%seq.length;
+    ringTimer=setTimeout(tick,step.d);
+  };
+  tick();
+}
 
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function money(n){return n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
@@ -46,7 +70,11 @@ function evalWins(vals,bet){
   const scatters=vals.filter(v=>v===2).length;
   return {total,winners,bonus:scatters>=3}
 }
-function host(text){$('#host-caption').textContent=text}
+function host(text,mode='idle'){
+  $('#host-caption').textContent=text;
+  runRingmaster(mode);
+  if(mode==='win')setTimeout(()=>{if(!busy)runRingmaster('idle')},1900)
+}
 function tone(freq=440,duration=.08,vol=.035,type='sine'){
   if(!audioOn)return;
   audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();
@@ -57,7 +85,7 @@ function flourish(){[520,660,820].forEach((f,i)=>setTimeout(()=>tone(f,.18,.045,
 async function spin(){
   if(busy)return;const bet=bets[betIndex];
   if(balance<bet){$('#status').textContent='Not enough play credits — reset credits to continue.';return}
-  busy=true;$('#spin').disabled=true;balance-=bet;lastWin=0;render();host('Let the show begin.');$('#status').textContent='The reels are spinning…';
+  busy=true;$('#spin').disabled=true;$('#spin').classList.add('spinning');balance-=bet;lastWin=0;render();host('Let the show begin.','spin');$('#status').textContent='The reels are spinning…';
   const cells=[...grid.children];cells.forEach(c=>c.classList.remove('winner'));
   const final=draw();
   for(let col=0;col<5;col++){
@@ -70,14 +98,14 @@ async function spin(){
   }
   const r=evalWins(gridVals,bet);lastWin=r.total;balance+=r.total;
   if(r.total>0){
-    r.winners.forEach(i=>cells[i].classList.add('winner'));host('A splendid performance!');$('#status').textContent=`You won ${money(r.total)} play credits.`;
+    r.winners.forEach(i=>cells[i].classList.add('winner'));host('A splendid performance!','win');$('#status').textContent=`You won ${money(r.total)} play credits.`;
     const b=$('#winBanner');b.textContent=`+${money(r.total)}`;b.classList.remove('show');void b.offsetWidth;b.classList.add('show');flourish()
-  }else{host('The curtain falls.');$('#status').textContent='No line win this spin.'}
-  render();busy=false;$('#spin').disabled=false;
+  }else{host('The curtain falls.','idle');$('#status').textContent='No line win this spin.'}
+  render();busy=false;$('#spin').disabled=false;$('#spin').classList.remove('spinning');
   if(r.bonus)setTimeout(()=>bonus(false),500)
 }
 function bonus(preview=true){
-  const modal=$('#modal'),body=$('#modalBody');host('Your fortune awaits…');
+  const modal=$('#modal'),body=$('#modalBody');host('Your fortune awaits…','win');
   body.innerHTML=`<h2>Fortune Tent Bonus</h2><p>Pick one card to reveal a carnival prize${preview?' preview':''}.</p><div class="cards"><button class="fortune" aria-label="Fortune card one">🌙</button><button class="fortune" aria-label="Fortune card two">👁️</button><button class="fortune" aria-label="Fortune card three">⭐</button></div>`;
   modal.showModal();
   body.querySelectorAll('.fortune').forEach(btn=>btn.onclick=()=>{
@@ -93,8 +121,9 @@ function paytable(){
 }
 $('#spin').onclick=spin;window.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.repeat&&!$('#modal').open){e.preventDefault();spin()}});
 $('#minus').onclick=()=>{if(!busy){betIndex=Math.max(0,betIndex-1);render()}};$('#plus').onclick=()=>{if(!busy){betIndex=Math.min(bets.length-1,betIndex+1);render()}};
-$('#resetBtn').onclick=()=>{if(!busy){balance=1000;lastWin=0;$('#status').textContent='Credits reset. Welcome back to the carnival.';host('Welcome back to the show.');render()}};
+$('#resetBtn').onclick=()=>{if(!busy){balance=1000;lastWin=0;$('#status').textContent='Credits reset. Welcome back to the carnival.';host('Welcome back to the show.','idle');render()}};
 $('#bonusBtn').onclick=()=>bonus(true);$('#paytableBtn').onclick=paytable;
 $('#closeModal').onclick=()=>$('#modal').close();$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))$('#modal').close()});
 $('#soundBtn').onclick=()=>{audioOn=!audioOn;$('#soundBtn').textContent=audioOn?'Sound on':'Sound off';if(audioOn)tone(330,.08,.035,'triangle')};
 setup();
+runRingmaster('idle');
