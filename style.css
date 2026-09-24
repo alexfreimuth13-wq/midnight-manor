@@ -1,0 +1,72 @@
+:root{
+  --bg:#0b070a;--panel:#170b11;--panel2:#251018;--wine:#4c1723;--gold:#d5a24f;
+  --gold2:#f4cf78;--cream:#f3dfb3;--teal:#79e9e0;--line:#8d5f30;--muted:#bda998;
+  --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#f7ead7;font-family:Georgia,"Times New Roman",serif}
+body{background:radial-gradient(circle at 50% 12%,#2b1520 0,#10090d 45%,#080507 100%);overflow-x:hidden}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+.topbar{height:calc(64px + var(--safe-top));display:flex;align-items:flex-end;justify-content:space-between;padding:calc(8px + var(--safe-top)) 18px 8px;max-width:1180px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px;letter-spacing:2px;font-size:13px}.monogram{display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--gold);color:var(--cream);font-size:23px;background:#170d12aa;box-shadow:inset 0 0 20px #0008}
+.quiet,.tools button,.bet button{background:#160d12b8;border:1px solid #8d6543;border-radius:9px;padding:9px 12px;backdrop-filter:blur(6px)}
+main{max-width:1180px;margin:auto;padding:0 14px calc(24px + var(--safe-bottom))}
+.stage{position:relative;min-height:690px;border-radius:22px;overflow:hidden;padding:178px 26px 22px;background:
+  linear-gradient(180deg,#07040715 0,#09050938 45%,#090509d9 100%),
+  url('assets/midnight-manor-art.webp') center 34%/cover no-repeat;
+  box-shadow:0 28px 90px #000b, inset 0 0 0 1px #b67c3b55;border:1px solid #6d4929;isolation:isolate
+}
+.stage:after{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 67% 38%,transparent 0 33%,#0b06093d 70%,#080507b3 100%)}
+.ambient-lights{position:absolute;z-index:2;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 10% 19%,#ffb74780 0 2px,transparent 8px),
+ radial-gradient(circle at 17% 12%,#ffb74770 0 2px,transparent 9px),
+ radial-gradient(circle at 71% 15%,#ffb74755 0 2px,transparent 10px),
+ radial-gradient(circle at 89% 32%,#ffb74770 0 2px,transparent 10px);animation:lampFlicker 4.8s ease-in-out infinite}
+.moon-glow{position:absolute;z-index:2;right:7%;top:4%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#9ce9ff18 0,#4eb9d512 36%,transparent 70%);filter:blur(3px);animation:moonPulse 5s ease-in-out infinite}
+.ringmaster-glow{position:absolute;z-index:2;right:13%;top:27%;width:12px;height:8px;border-radius:50%;background:#75fff4;box-shadow:0 0 8px #55f6ed,0 0 18px #44d7ff,0 0 30px #40d7ff;animation:eyes 2.6s ease-in-out infinite;pointer-events:none}
+.glow-b{right:11.6%;top:27.6%;animation-delay:-.35s}
+.game-title{position:absolute;z-index:4;left:4.2%;top:5%;width:55%;text-align:center;text-shadow:0 3px 14px #000,0 0 26px #000}
+.game-title span{font:11px Arial,sans-serif;letter-spacing:3.4px;color:#e0b76f}.game-title h1{font-size:clamp(36px,5vw,68px);font-weight:400;margin:7px 0 3px;color:#f3d38d;line-height:.9;letter-spacing:.5px}.game-title p{margin:7px 0 0;color:#d8c1ad;font-style:italic}
+.reel-wrap{position:relative;z-index:5;width:min(75%,810px)}
+.reel-cabinet{position:relative;border:2px solid #dfb366;box-shadow:0 0 0 4px #28170f,0 0 0 6px #7f522c,0 14px 36px #000b;background:linear-gradient(180deg,#13090f99,#09060ab0);backdrop-filter:blur(3px);border-radius:8px;overflow:hidden}
+.cabinet-topline{height:12px;display:flex;align-items:center;gap:8px;color:#e4bd6c;padding:0 9px;background:#24120fbb}.cabinet-topline span{height:1px;flex:1;background:linear-gradient(90deg,transparent,#d4a756,transparent)}.cabinet-topline b{font-size:10px}.cabinet-bottomline{height:8px;background:linear-gradient(90deg,#2c160f,#c19048,#2c160f)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:4px;background:#08050766}
+.cell{aspect-ratio:1.055;display:grid;place-items:center;overflow:hidden;background:#160b11aa;border:1px solid #6f492b;position:relative;box-shadow:inset 0 0 22px #0007}
+.cell:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#fff1 0,transparent 22%,transparent 75%,#0003 100%)}
+.symbol-img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.035);filter:saturate(1.05) contrast(1.03) drop-shadow(0 5px 4px #0007);transition:transform .2s,filter .2s,opacity .2s}
+.cell.rolling .symbol-img{animation:roll .12s linear infinite;filter:blur(1.2px) saturate(1.18) brightness(1.08);opacity:.88}
+.cell.winner{z-index:2;border-color:#ffe5a0;box-shadow:inset 0 0 32px #ffd56a3d,0 0 10px #f0b94f,0 0 26px #d99228aa}.cell.winner .symbol-img{animation:win 700ms ease-in-out 2;filter:saturate(1.3) brightness(1.12)}
+.controls{position:relative;z-index:5;min-height:124px;margin-top:11px;border:1px solid #80542f;border-radius:20px;background:linear-gradient(180deg,#28131dcf,#10090edc);backdrop-filter:blur(7px);display:grid;grid-template-columns:1fr 128px 1fr;align-items:center;padding:8px 16px;box-shadow:0 12px 35px #0007,inset 0 1px 0 #f6c8791f}
+.meter{display:flex;flex-direction:column;align-items:center;gap:8px}.meter span,.bet>span{font:11px Arial,sans-serif;letter-spacing:1.5px;color:#d7b36d}.meter strong{font-size:26px;font-weight:400;text-shadow:0 2px 6px #000}.spin{width:108px;height:108px;border-radius:50%;border:5px solid #d3a251;background:radial-gradient(circle at 42% 32%,#ffe9a0,#e6a13a 57%,#8f4e1d 70%);color:#45220f;box-shadow:0 6px 0 #6e391a,0 0 0 3px #351a10,0 0 25px #e39e3155;font-family:Arial,sans-serif;font-weight:900;cursor:pointer}.spin span{display:block;font-size:43px;line-height:.82}.spin b{font-size:14px;letter-spacing:.5px}.spin:active{transform:translateY(3px);box-shadow:0 3px 0 #6e391a,0 0 0 3px #351a10}.spin[disabled]{filter:grayscale(.2) brightness(.8);cursor:default}
+.bet{grid-column:1/-1;display:flex;justify-content:center;align-items:center;gap:16px}.bet button{border-radius:50%;width:40px;height:40px;padding:0;font-size:23px;background:#1a0e13cc}.bet strong{min-width:72px;text-align:center;font-size:20px}
+.win-banner{position:absolute;z-index:8;left:12%;top:34%;width:76%;text-align:center;padding:10px 12px;border-radius:12px;background:#200f18ed;border:1px solid #e4b75c;color:#ffe3a0;font-size:clamp(30px,5vw,48px);text-shadow:0 2px 10px #000;opacity:0;pointer-events:none;box-shadow:0 15px 40px #000a}.win-banner.show{animation:banner 2s ease both}
+.status{padding:12px 8px 0;text-align:center}.status>p{font-size:18px;margin:9px 0 11px}.tools{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}.tools button{border-width:0 0 1px;border-radius:0;padding:7px 2px;color:#dbc39e;background:transparent}.demo-note{font-size:13px!important;color:#aa9a90;max-width:700px;margin:12px auto 0!important}
+dialog{border:0;background:transparent;color:inherit;padding:18px;max-width:100vw}dialog::backdrop{background:#080509df;backdrop-filter:blur(3px)}.modal-card{position:relative;width:min(560px,calc(100vw - 30px));border:1px solid #92623b;border-radius:18px;background:linear-gradient(180deg,#26131c,#10090e);padding:28px;box-shadow:0 20px 80px #000}.modal-card h2{color:#efca7c;margin-top:0}.modal-close{position:absolute;right:12px;top:8px;background:none;border:0;font-size:28px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.fortune{min-height:150px;border:1px solid #b57e43;border-radius:12px;background:url('assets/tarot.webp') center/cover no-repeat;box-shadow:inset 0 0 35px #0008;font-size:32px;text-shadow:0 2px 8px #000}.fortune:disabled{opacity:.65}.paytable{display:grid;gap:8px;margin-top:14px}.pay-row{display:grid;grid-template-columns:50px 1fr auto;gap:10px;align-items:center;padding:7px;border:1px solid #6f4b2d;background:#120b0f}.pay-row img{width:50px;height:45px;object-fit:cover;border:1px solid #6b472e}.pay-row small{color:#c9b8a9}.pay-row b{color:#f0cd83}
+.fog{position:absolute;z-index:3;width:62%;height:155px;border-radius:50%;filter:blur(25px);background:#8de9e21f;animation:fog 8s ease-in-out infinite;pointer-events:none}.fog-a{bottom:8%;left:-18%}.fog-b{right:-22%;bottom:3%;animation-delay:-4s}
+@keyframes roll{0%{transform:translateY(-7%) scale(1.06)}50%{transform:translateY(7%) scale(1.06)}100%{transform:translateY(-7%) scale(1.06)}}
+@keyframes win{50%{transform:scale(1.11) rotate(1deg)}}
+@keyframes banner{0%{opacity:0;transform:scale(.9)}14%,74%{opacity:1;transform:scale(1)}100%{opacity:0;transform:translateY(-14px) scale(1.02)}}
+@keyframes fog{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(45px) scale(1.16)}}
+@keyframes lampFlicker{0%,100%{opacity:.78}9%{opacity:1}11%{opacity:.63}13%{opacity:.95}65%{opacity:.86}67%{opacity:1}}
+@keyframes moonPulse{0%,100%{opacity:.62;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes eyes{0%,100%{opacity:.45;transform:scale(.8)}48%{opacity:1;transform:scale(1.2)}54%{opacity:.18;transform:scale(.72)}60%{opacity:1;transform:scale(1.08)}}
+@media(max-width:760px){
+  .topbar{height:calc(54px + var(--safe-top));padding:calc(5px + var(--safe-top)) 10px 6px}.brand{font-size:10px;letter-spacing:1px}.monogram{width:35px;height:35px;font-size:17px}.quiet{font-size:12px;padding:7px 9px}
+  main{padding:0 7px calc(16px + var(--safe-bottom))}.stage{min-height:0;border-radius:14px;padding:228px 7px 9px;background:
+    linear-gradient(180deg,#08050805 0,#08050818 28%,#0a060a85 44%,#090509f2 100%),
+    url('assets/midnight-manor-art.webp') 72% 0/auto 300px no-repeat,
+    #0b070a;
+  }
+  .stage:after{background:linear-gradient(180deg,transparent 0 28%,#09050926 36%,#090509b8 60%,#090509ed 100%)}
+  .ambient-lights{background:radial-gradient(circle at 16% 19%,#ffb74775 0 2px,transparent 8px),radial-gradient(circle at 79% 16%,#ffb74775 0 2px,transparent 9px)}
+  .moon-glow{right:-16px;top:15px;width:120px;height:120px}.ringmaster-glow{display:none}
+  .game-title{top:24px;left:15px;width:57%;text-align:left}.game-title span{font-size:8px;letter-spacing:1.55px}.game-title h1{font-size:clamp(26px,8.7vw,37px);margin:6px 0 4px;line-height:.92}.game-title p{font-size:12px;max-width:175px;margin-top:5px}
+  .reel-wrap{width:100%}.reel-cabinet{border-width:1px;box-shadow:0 0 0 3px #25160f,0 0 0 4px #83572f,0 8px 24px #000b;background:#10090ea8}.cabinet-topline{height:9px}.cabinet-bottomline{height:6px}.grid{padding:2px;gap:1px}.cell{border-width:1px}.symbol-img{transform:scale(1.05)}
+  .controls{grid-template-columns:1fr 100px 1fr;min-height:112px;padding:6px 3px;margin-top:8px;border-radius:16px}.spin{width:88px;height:88px;border-width:4px}.spin span{font-size:36px}.spin b{font-size:12px}.meter{gap:5px}.meter strong{font-size:18px}.meter span{font-size:8px;letter-spacing:1px}.bet{gap:11px;margin-top:1px}.bet>span{font-size:9px}.bet button{width:35px;height:35px;font-size:20px}.bet strong{min-width:58px;font-size:18px}
+  .win-banner{top:31%;font-size:30px;padding:8px}.fog{height:100px;filter:blur(20px)}
+  .status{padding-top:5px}.status>p{font-size:15px;min-height:24px;margin:8px 0}.tools{gap:2px 12px}.tools button{font-size:12px}.demo-note{font-size:11px!important;line-height:1.35}
+  .modal-card{padding:24px 18px}.cards{gap:7px}.fortune{min-height:125px}
+}
+@media(max-width:390px){.stage{padding-top:214px;background-size:auto 282px;background-position:73% 0}.game-title{top:20px}.controls{grid-template-columns:1fr 92px 1fr}.spin{width:82px;height:82px}.meter strong{font-size:16px}.bet{gap:8px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.ambient-lights,.moon-glow,.fog{display:none}}
