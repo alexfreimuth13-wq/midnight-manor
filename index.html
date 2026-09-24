@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b070a"/>
+  <title>Midnight Manor</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="monogram">M</span><strong>MIDNIGHT MANOR</strong></div>
+    <button id="soundBtn" class="quiet" type="button">Sound off</button>
+  </header>
+
+  <main>
+    <section class="stage" aria-label="Midnight Manor haunted carnival slot">
+      <div class="ambient-lights" aria-hidden="true"></div>
+      <div class="moon-glow" aria-hidden="true"></div>
+      <div class="ringmaster-glow glow-a" aria-hidden="true"></div>
+      <div class="ringmaster-glow glow-b" aria-hidden="true"></div>
+      <div class="fog fog-a" aria-hidden="true"></div>
+      <div class="fog fog-b" aria-hidden="true"></div>
+
+      <div class="game-title">
+        <span>THE HAUNTED CARNIVAL</span>
+        <h1>MIDNIGHT<br/>MANOR</h1>
+        <p id="host-caption">Welcome to the show.</p>
+      </div>
+
+      <div class="reel-wrap">
+        <div class="reel-cabinet">
+          <div class="cabinet-topline" aria-hidden="true"><span></span><b>✦</b><span></span></div>
+          <div id="grid" class="grid" aria-label="Slot reels"></div>
+          <div id="winBanner" class="win-banner" aria-live="polite"></div>
+          <div class="cabinet-bottomline" aria-hidden="true"></div>
+        </div>
+
+        <div class="controls">
+          <div class="meter balance-meter"><span>PLAY CREDITS</span><strong id="balance">1,000.00</strong></div>
+          <button id="spin" class="spin" type="button" aria-label="Spin reels"><span>↻</span><b>SPIN</b></button>
+          <div class="meter win-meter"><span>LAST WIN</span><strong id="lastWin">0.00</strong></div>
+          <div class="bet">
+            <span>BET</span>
+            <button id="minus" type="button" aria-label="Decrease bet">−</button>
+            <strong id="bet">1.00</strong>
+            <button id="plus" type="button" aria-label="Increase bet">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status">
+      <p id="status" aria-live="polite">The carnival is open. Take a spin.</p>
+      <div class="tools">
+        <button id="paytableBtn" type="button">How to play & paytable</button>
+        <button id="bonusBtn" type="button">Explore the bonus</button>
+        <button id="resetBtn" type="button">Reset credits</button>
+      </div>
+      <p class="demo-note">Playable concept using play credits only — no deposits, purchases, withdrawals, or cash prizes.</p>
+    </section>
+  </main>
+
+  <dialog id="modal">
+    <div class="modal-card">
+      <button id="closeModal" class="modal-close" type="button" aria-label="Close">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
