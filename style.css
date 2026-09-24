@@ -68,10 +68,14 @@ dialog{border:0;background:transparent;color:inherit;padding:18px;max-width:100v
   .stage:after{background:linear-gradient(180deg,transparent 0 28%,#09050926 36%,#090509b8 60%,#090509ed 100%)}
   .ambient-lights{background:radial-gradient(circle at 16% 19%,#ffb74775 0 2px,transparent 8px),radial-gradient(circle at 79% 16%,#ffb74775 0 2px,transparent 9px)}
   .moon-glow{right:-16px;top:15px;width:120px;height:120px}.ringmaster-glow{display:none}
-  .ringmaster-anim{display:block;position:absolute;z-index:4;right:-1px;top:14px;width:53%;height:184px;overflow:hidden;pointer-events:none;filter:drop-shadow(-8px 10px 16px #0008);-webkit-mask-image:linear-gradient(to left,#000 0 82%,transparent 100%),linear-gradient(to top,#000 0 78%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to left,#000 0 82%,transparent 100%),linear-gradient(to top,#000 0 78%,transparent 100%);mask-composite:intersect}
-  .ringmaster-anim img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:saturate(1.08) contrast(1.05) brightness(.98);transform:scale(1.025);transition:opacity .06s linear,transform .18s ease}
-  .ringmaster-anim.tip img{transform:scale(1.045) translateY(-1px)}
-  .ringmaster-anim.spin-mode{filter:drop-shadow(-8px 10px 16px #0008) drop-shadow(0 0 11px #69f3e74a)}
+  .ringmaster-anim{display:block;position:absolute;z-index:4;right:-3px;top:18px;width:57%;height:174px;overflow:hidden;pointer-events:none;
+    clip-path:polygon(31% 100%,31% 80%,35% 64%,42% 52%,43% 34%,49% 16%,58% 4%,73% 5%,82% 17%,89% 34%,96% 46%,100% 100%);
+    filter:drop-shadow(-7px 10px 13px #0009)}
+  .ringmaster-anim img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+    mix-blend-mode:lighten;filter:saturate(1.12) contrast(1.1) brightness(.98);
+    transform:scale(1.02);transition:transform .16s ease}
+  .ringmaster-anim.tip img{transform:scale(1.035) translate(-1px,-1px) rotate(-.35deg)}
+  .ringmaster-anim.spin-mode{filter:drop-shadow(-7px 10px 13px #0009) drop-shadow(0 0 10px #6af6e84d)}
   .ringmaster-anim.win-mode{animation:hostCheer .8s ease-in-out 2}
   .game-title{top:24px;left:15px;width:57%;text-align:left}.game-title span{font-size:8px;letter-spacing:1.55px}.game-title h1{font-size:clamp(26px,8.7vw,37px);margin:6px 0 4px;line-height:.92}.game-title p{font-size:12px;max-width:175px;margin-top:5px}
   .reel-wrap{width:100%}.reel-cabinet{border-width:1px;box-shadow:0 0 0 3px #25160f,0 0 0 4px #83572f,0 8px 24px #000b;background:#10090ea8}.cabinet-topline{height:9px}.cabinet-bottomline{height:6px}.grid{padding:2px;gap:1px}.cell{border-width:1px}.symbol-img{transform:scale(1.05)}
@@ -80,5 +84,5 @@ dialog{border:0;background:transparent;color:inherit;padding:18px;max-width:100v
   .status{padding-top:5px}.status>p{font-size:15px;min-height:24px;margin:8px 0}.tools{gap:2px 12px}.tools button{font-size:12px}.demo-note{font-size:11px!important;line-height:1.35}
   .modal-card{padding:24px 18px}.cards{gap:7px}.fortune{min-height:125px}
 }
-@media(max-width:390px){.stage{padding-top:214px;background-size:auto 282px;background-position:39% 0}.ringmaster-anim{height:174px;width:55%;top:12px}.game-title{top:20px}.controls{grid-template-columns:1fr 92px 1fr}.spin{width:82px;height:82px}.meter strong{font-size:16px}.bet{gap:8px}}
+@media(max-width:390px){.stage{padding-top:214px;background-size:auto 282px;background-position:39% 0}.ringmaster-anim{height:162px;width:59%;top:14px;right:-5px}.game-title{top:20px}.controls{grid-template-columns:1fr 92px 1fr}.spin{width:82px;height:82px}.meter strong{font-size:16px}.bet{gap:8px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.ambient-lights,.moon-glow,.fog{display:none}}
